@@ -22,6 +22,34 @@ window.onload = function() {
         });
     }
 }
+document.getElementById("formComentario").addEventListener("submit", function(e) {
+    e.preventDefault();
+    
+    const nombre = document.getElementById("nombre").value.trim();
+    const mensaje = document.getElementById("mensaje").value.trim();
+
+    // Validaciones
+    if (nombre.length < 3) {
+        alert("El nombre debe tener al menos 3 caracteres.");
+        return;
+    }
+    if (mensaje.length > 200) {
+        alert("El mensaje no puede superar los 200 caracteres.");
+        return;
+    }
+
+    // Si pasa validaciones → aquí puedes guardar en localStorage o mostrarlo
+    const nuevoComentario = { nombre, mensaje };
+    mostrarComentario(nuevoComentario); // si tienes esta función definida
+
+    // Ejemplo de guardar en localStorage
+    const comentariosGuardados = JSON.parse(localStorage.getItem('comentarios')) || [];
+    comentariosGuardados.push(nuevoComentario);
+    localStorage.setItem('comentarios', JSON.stringify(comentariosGuardados));
+
+    // Limpiar formulario
+    document.getElementById("formComentario").reset();
+});
 function agregarComentario() { // Función que se ejecuta al hacer clic en "Publicar comentario"
   const nombre = document.getElementById('nombre').value.trim(); // Obtiene el nombre del input y elimina espacios extra
   const mensaje = document.getElementById('mensaje').value.trim(); // Obtiene el mensaje del textarea y elimina espacios extra
