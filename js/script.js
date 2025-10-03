@@ -44,37 +44,6 @@ function agregarComentario() {
 
     // Resto del código...
 }
-function agregarComentario() { // Función que se ejecuta al hacer clic en "Publicar comentario"
-  const nombre = document.getElementById('nombre').value.trim(); // Obtiene el nombre del input y elimina espacios extra
-  const mensaje = document.getElementById('mensaje').value.trim(); // Obtiene el mensaje del textarea y elimina espacios extra
-  const imagenInput = document.getElementById('imagen'); // Obtiene el input de tipo archivo (para imagen)
-
-  if (!nombre || !mensaje) { // Valida que el nombre y mensaje no estén vacíos
-    alert('Por favor escribe tu nombre y comentario.'); // Muestra alerta si falta información
-    return; // Detiene la ejecución de la función
-  }
-
-  const fecha = new Date(); // Crea un objeto con la fecha y hora actual
-  const fechaTexto = fecha.toLocaleString(); // Convierte la fecha a un formato legible (ej. "01/10/2025, 10:30:00")
-  let imagenData = null; // Variable que almacenará la imagen en formato base64 (si existe)
-
-  if (imagenInput.files && imagenInput.files[0]) { // Verifica si se seleccionó un archivo de imagen
-    const lector = new FileReader(); // Crea un lector de archivos
-    lector.onload = function(e) { // Evento que se ejecuta cuando la imagen termina de cargarse
-      imagenData = e.target.result; // Guarda la imagen como cadena base64
-      guardarYMostrar({ nombre, mensaje, fechaTexto, imagenData }); // Llama a la función para guardar y mostrar el comentario
-    }
-    lector.readAsDataURL(imagenInput.files[0]); // Convierte la imagen seleccionada a base64
-  } else {
-    guardarYMostrar({ nombre, mensaje, fechaTexto, imagenData }); // Si no hay imagen, guarda y muestra solo el texto
-  }
-
-  // Limpia los campos del formulario después de publicar
-  document.getElementById('nombre').value = '';
-  document.getElementById('mensaje').value = '';
-  imagenInput.value = '';
-}
-
 function guardarYMostrar(comentario) { // Función que guarda el comentario en localStorage y lo muestra
   const comentariosGuardados = JSON.parse(localStorage.getItem('comentarios')) || []; // Obtiene los comentarios previos
   comentariosGuardados.push(comentario); // Agrega el nuevo comentario al array
@@ -93,7 +62,28 @@ function mostrarComentario({ nombre, mensaje, fechaTexto, imagenData }) { // Fun
     <p>${mensaje}</p>
     <small>${fechaTexto}</small>
   `;
+function agregarComentario() {
+    // Función que se ejecuta al hacer clic en "Publicar comentario"
+    const nombre = document.getElementById('nombre').value.trim(); // Obtiene el nombre del input y elimina espacios extra
+    const mensaje = document.getElementById('mensaje').value.trim(); // Obtiene el mensaje del textarea y elimina espacios extra
+    const imagenInput = document.getElementById('imagen'); // Obtiene el input de tipo archivo (para imagen)
 
+    // Validaciones
+    if (nombre.length < 3) {
+        alert('El nombre debe tener al menos 3 caracteres');
+        return;
+    }
+    if (mensaje.length === 0 || mensaje.length > 200) {
+        if (mensaje.length === 0) {
+            alert('Por favor escribe un comentario.');
+        } else {
+            alert('El mensaje no debe superar los 200 caracteres');
+        }
+        return;
+    }
+
+    // Resto del código...
+}
   if (imagenData) { // Si el comentario incluye una imagen
     const img = document.createElement('img'); // Crea un elemento <img>
     img.src = imagenData; // Le asigna la imagen en base64 como fuente
