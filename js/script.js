@@ -22,28 +22,6 @@ window.onload = function() {
         });
     }
 }
-function agregarComentario() {
-    // Función que se ejecuta al hacer clic en "Publicar comentario"
-    const nombre = document.getElementById('nombre').value.trim(); // Obtiene el nombre del input y elimina espacios extra
-    const mensaje = document.getElementById('mensaje').value.trim(); // Obtiene el mensaje del textarea y elimina espacios extra
-    const imagenInput = document.getElementById('imagen'); // Obtiene el input de tipo archivo (para imagen)
-
-    // Validaciones
-    if (nombre.length < 3) {
-        alert('El nombre debe tener al menos 3 caracteres');
-        return;
-    }
-    if (mensaje.length > 200) {
-        alert('El mensaje no debe superar los 200 caracteres');
-        return;
-    }
-    if (!nombre || !mensaje) { // Valida que el nombre y mensaje no estén vacíos
-        alert('Por favor escribe tu nombre y comentario.'); // Muestra alerta si falta información
-        return; // Detiene la ejecución de la función
-    }
-
-    // Resto del código...
-}
 function guardarYMostrar(comentario) { // Función que guarda el comentario en localStorage y lo muestra
   const comentariosGuardados = JSON.parse(localStorage.getItem('comentarios')) || []; // Obtiene los comentarios previos
   comentariosGuardados.push(comentario); // Agrega el nuevo comentario al array
